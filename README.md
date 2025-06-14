@@ -1,1 +1,1 @@
-# Metadata Stewardship Wizard for FAIR
+# RNA-MetaWiz4FAIR
