@@ -2,3 +2,4 @@ __pycache__/
 .venv/
 notes.md
 .DS_Store
+**/__pycache__/

@@ -1,0 +1,645 @@
+{
+  "$defs": {
+    "BiologicalSystem": {
+      "properties": {
+        "organism": {
+          "title": "Organism",
+          "type": "string"
+        },
+        "organism_id": {
+          "title": "Organism Id",
+          "type": "string"
+        },
+        "tissue_cell_type": {
+          "title": "Tissue Cell Type",
+          "type": "string"
+        },
+        "tissue_cell_type_id": {
+          "title": "Tissue Cell Type Id",
+          "type": "string"
+        },
+        "qualifier": {
+          "$ref": "#/$defs/Qualifier"
+        },
+        "value": {
+          "title": "Value",
+          "type": "string"
+        },
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "experimental_design": {
+          "$ref": "#/$defs/ExperimentalDesign"
+        }
+      },
+      "required": [
+        "organism",
+        "organism_id",
+        "tissue_cell_type",
+        "tissue_cell_type_id",
+        "qualifier",
+        "value",
+        "source",
+        "experimental_design"
+      ],
+      "title": "BiologicalSystem",
+      "type": "object"
+    },
+    "ContactInformation": {
+      "properties": {
+        "author": {
+          "title": "Author",
+          "type": "string"
+        },
+        "orcid": {
+          "title": "Orcid",
+          "type": "string"
+        },
+        "email": {
+          "title": "Email",
+          "type": "string"
+        },
+        "institution": {
+          "title": "Institution",
+          "type": "string"
+        },
+        "contributors": {
+          "items": {
+            "$ref": "#/$defs/Contributor"
+          },
+          "title": "Contributors",
+          "type": "array"
+        }
+      },
+      "required": [
+        "author",
+        "orcid",
+        "email",
+        "institution",
+        "contributors"
+      ],
+      "title": "ContactInformation",
+      "type": "object"
+    },
+    "Contributor": {
+      "properties": {
+        "contributor": {
+          "title": "Contributor",
+          "type": "string"
+        },
+        "orcid": {
+          "title": "Orcid",
+          "type": "string"
+        },
+        "email": {
+          "title": "Email",
+          "type": "string"
+        },
+        "institution": {
+          "title": "Institution",
+          "type": "string"
+        }
+      },
+      "required": [
+        "contributor",
+        "orcid",
+        "email",
+        "institution"
+      ],
+      "title": "Contributor",
+      "type": "object"
+    },
+    "DataFormatProcessed": {
+      "enum": [
+        "csv",
+        "tsv",
+        "xlsx"
+      ],
+      "title": "DataFormatProcessed",
+      "type": "string"
+    },
+    "DataFormatRaw": {
+      "enum": [
+        "fastq",
+        "fastq.gz"
+      ],
+      "title": "DataFormatRaw",
+      "type": "string"
+    },
+    "DataProcessingMapping": {
+      "properties": {
+        "read_mapping_alignment_methods": {
+          "title": "Read Mapping Alignment Methods",
+          "type": "string"
+        },
+        "alignment_methods": {
+          "title": "Alignment Methods",
+          "type": "string"
+        },
+        "data_filtering_quality_control_methods": {
+          "title": "Data Filtering Quality Control Methods",
+          "type": "string"
+        },
+        "data_rejection_methods": {
+          "title": "Data Rejection Methods",
+          "type": "string"
+        },
+        "data_correction_methods": {
+          "title": "Data Correction Methods",
+          "type": "string"
+        },
+        "data_smoothing_methods": {
+          "title": "Data Smoothing Methods",
+          "type": "string"
+        },
+        "data_filtering_methods": {
+          "title": "Data Filtering Methods",
+          "type": "string"
+        },
+        "data_normalization_method": {
+          "title": "Data Normalization Method",
+          "type": "string"
+        },
+        "data_analysis_tools_algorithms": {
+          "title": "Data Analysis Tools Algorithms",
+          "type": "string"
+        },
+        "identifiers": {
+          "title": "Identifiers",
+          "type": "string"
+        }
+      },
+      "required": [
+        "read_mapping_alignment_methods",
+        "alignment_methods",
+        "data_filtering_quality_control_methods",
+        "data_rejection_methods",
+        "data_correction_methods",
+        "data_smoothing_methods",
+        "data_filtering_methods",
+        "data_normalization_method",
+        "data_analysis_tools_algorithms",
+        "identifiers"
+      ],
+      "title": "DataProcessingMapping",
+      "type": "object"
+    },
+    "ExperimentDataProcessingProtocols": {
+      "properties": {
+        "sample_processing_protocols": {
+          "title": "Sample Processing Protocols",
+          "type": "string"
+        },
+        "extraction": {
+          "title": "Extraction",
+          "type": "string"
+        },
+        "purification": {
+          "title": "Purification",
+          "type": "string"
+        },
+        "preparation": {
+          "title": "Preparation",
+          "type": "string"
+        },
+        "sequencing_platform_technology": {
+          "title": "Sequencing Platform Technology",
+          "type": "string"
+        },
+        "library_preparation_method": {
+          "title": "Library Preparation Method",
+          "type": "string"
+        },
+        "sequencing_chemistry": {
+          "title": "Sequencing Chemistry",
+          "type": "string"
+        },
+        "labelling_methodology": {
+          "title": "Labelling Methodology",
+          "type": "string"
+        },
+        "amplification_methodology": {
+          "title": "Amplification Methodology",
+          "type": "string"
+        },
+        "data_processing_mapping": {
+          "$ref": "#/$defs/DataProcessingMapping"
+        }
+      },
+      "required": [
+        "sample_processing_protocols",
+        "extraction",
+        "purification",
+        "preparation",
+        "sequencing_platform_technology",
+        "library_preparation_method",
+        "sequencing_chemistry",
+        "labelling_methodology",
+        "amplification_methodology",
+        "data_processing_mapping"
+      ],
+      "title": "ExperimentDataProcessingProtocols",
+      "type": "object"
+    },
+    "ExperimentVariablesControls": {
+      "properties": {
+        "variables": {
+          "items": {
+            "$ref": "#/$defs/ExperimentalVariable"
+          },
+          "title": "Variables",
+          "type": "array"
+        },
+        "sample_treatment_type": {
+          "$ref": "#/$defs/SampleTreatmentType"
+        },
+        "replicates": {
+          "items": {
+            "$ref": "#/$defs/Replicate"
+          },
+          "title": "Replicates",
+          "type": "array"
+        },
+        "quality_control": {
+          "title": "Quality Control",
+          "type": "string"
+        }
+      },
+      "required": [
+        "variables",
+        "sample_treatment_type",
+        "replicates",
+        "quality_control"
+      ],
+      "title": "ExperimentVariablesControls",
+      "type": "object"
+    },
+    "ExperimentalDesign": {
+      "properties": {
+        "experimental_overview": {
+          "$ref": "#/$defs/ExperimentalOverview"
+        },
+        "experiment_variables_controls": {
+          "$ref": "#/$defs/ExperimentVariablesControls"
+        }
+      },
+      "required": [
+        "experimental_overview",
+        "experiment_variables_controls"
+      ],
+      "title": "ExperimentalDesign",
+      "type": "object"
+    },
+    "ExperimentalOverview": {
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "experiment_type": {
+          "title": "Experiment Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "experiment_type"
+      ],
+      "title": "ExperimentalOverview",
+      "type": "object"
+    },
+    "ExperimentalVariable": {
+      "properties": {
+        "experimental_factor": {
+          "title": "Experimental Factor",
+          "type": "string"
+        },
+        "experimental_factor_value": {
+          "title": "Experimental Factor Value",
+          "type": "string"
+        },
+        "experimental_factor_units": {
+          "title": "Experimental Factor Units",
+          "type": "string"
+        }
+      },
+      "required": [
+        "experimental_factor",
+        "experimental_factor_value",
+        "experimental_factor_units"
+      ],
+      "title": "ExperimentalVariable",
+      "type": "object"
+    },
+    "GeneralInformation": {
+      "properties": {
+        "study_summary": {
+          "title": "Study Summary",
+          "type": "string"
+        },
+        "sample_data_relationships": {
+          "items": {
+            "$ref": "#/$defs/SampleDataRelationship"
+          },
+          "title": "Sample Data Relationships",
+          "type": "array"
+        },
+        "contact_information": {
+          "$ref": "#/$defs/ContactInformation"
+        },
+        "publication_information": {
+          "title": "Publication Information",
+          "type": "string"
+        },
+        "links": {
+          "items": {
+            "$ref": "#/$defs/Link"
+          },
+          "title": "Links",
+          "type": "array"
+        }
+      },
+      "required": [
+        "study_summary",
+        "sample_data_relationships",
+        "contact_information",
+        "publication_information",
+        "links"
+      ],
+      "title": "GeneralInformation",
+      "type": "object"
+    },
+    "Link": {
+      "properties": {
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url",
+        "description"
+      ],
+      "title": "Link",
+      "type": "object"
+    },
+    "ProcessedData": {
+      "properties": {
+        "processed_data_id": {
+          "title": "Processed Data Id",
+          "type": "string"
+        },
+        "processed_data": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Processed Data",
+          "type": "string"
+        },
+        "data_format_processed": {
+          "$ref": "#/$defs/DataFormatProcessed"
+        },
+        "data_format_id": {
+          "title": "Data Format Id",
+          "type": "string"
+        },
+        "gene_expression_matrix": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Gene Expression Matrix",
+          "type": "string"
+        },
+        "gene_expression_matrix_description": {
+          "title": "Gene Expression Matrix Description",
+          "type": "string"
+        },
+        "gene_expression_matrix_id": {
+          "title": "Gene Expression Matrix Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "processed_data_id",
+        "processed_data",
+        "data_format_processed",
+        "data_format_id",
+        "gene_expression_matrix",
+        "gene_expression_matrix_description",
+        "gene_expression_matrix_id"
+      ],
+      "title": "ProcessedData",
+      "type": "object"
+    },
+    "Qualifier": {
+      "enum": [
+        "strain",
+        "age",
+        "treatment"
+      ],
+      "title": "Qualifier",
+      "type": "string"
+    },
+    "Replicate": {
+      "enum": [
+        "patients",
+        "technical"
+      ],
+      "title": "Replicate",
+      "type": "string"
+    },
+    "Sample": {
+      "properties": {
+        "sample_id": {
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "organism": {
+          "title": "Organism",
+          "type": "string"
+        },
+        "organism_id": {
+          "title": "Organism Id",
+          "type": "string"
+        },
+        "tissue_type": {
+          "title": "Tissue Type",
+          "type": "string"
+        },
+        "tissue_type_id": {
+          "title": "Tissue Type Id",
+          "type": "string"
+        },
+        "cell_type": {
+          "title": "Cell Type",
+          "type": "string"
+        },
+        "cell_type_id": {
+          "title": "Cell Type Id",
+          "type": "string"
+        },
+        "qualifiers": {
+          "items": {
+            "$ref": "#/$defs/Qualifier"
+          },
+          "title": "Qualifiers",
+          "type": "array"
+        },
+        "qualifier_values": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Qualifier Values",
+          "type": "array"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source"
+        }
+      },
+      "required": [
+        "sample_id",
+        "organism",
+        "organism_id",
+        "tissue_type",
+        "tissue_type_id",
+        "cell_type",
+        "cell_type_id",
+        "qualifiers",
+        "qualifier_values"
+      ],
+      "title": "Sample",
+      "type": "object"
+    },
+    "SampleDataRelationship": {
+      "properties": {
+        "sample_id": {
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "raw_data_id": {
+          "title": "Raw Data Id",
+          "type": "string"
+        },
+        "processed_data_id": {
+          "title": "Processed Data Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sample_id",
+        "raw_data_id",
+        "processed_data_id"
+      ],
+      "title": "SampleDataRelationship",
+      "type": "object"
+    },
+    "SampleTreatmentType": {
+      "enum": [
+        "in_vivo",
+        "in_vitro",
+        "not_applied"
+      ],
+      "title": "SampleTreatmentType",
+      "type": "string"
+    },
+    "SequenceReadData": {
+      "properties": {
+        "raw_data_id": {
+          "title": "Raw Data Id",
+          "type": "string"
+        },
+        "raw_data": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Raw Data",
+          "type": "string"
+        },
+        "quality_scores": {
+          "title": "Quality Scores",
+          "type": "string"
+        },
+        "scale": {
+          "title": "Scale",
+          "type": "string"
+        },
+        "data_format": {
+          "$ref": "#/$defs/DataFormatRaw"
+        }
+      },
+      "required": [
+        "raw_data_id",
+        "raw_data",
+        "quality_scores",
+        "scale",
+        "data_format"
+      ],
+      "title": "SequenceReadData",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "biological_system": {
+      "$ref": "#/$defs/BiologicalSystem"
+    },
+    "samples": {
+      "items": {
+        "$ref": "#/$defs/Sample"
+      },
+      "title": "Samples",
+      "type": "array"
+    },
+    "sequence_read_data": {
+      "items": {
+        "$ref": "#/$defs/SequenceReadData"
+      },
+      "title": "Sequence Read Data",
+      "type": "array"
+    },
+    "processed_data": {
+      "items": {
+        "$ref": "#/$defs/ProcessedData"
+      },
+      "title": "Processed Data",
+      "type": "array"
+    },
+    "general_information": {
+      "$ref": "#/$defs/GeneralInformation"
+    },
+    "experiment_data_processing_protocols": {
+      "$ref": "#/$defs/ExperimentDataProcessingProtocols"
+    }
+  },
+  "required": [
+    "biological_system",
+    "samples",
+    "sequence_read_data",
+    "processed_data",
+    "general_information",
+    "experiment_data_processing_protocols"
+  ],
+  "title": "Minseqe",
+  "type": "object"
+}
