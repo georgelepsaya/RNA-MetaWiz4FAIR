@@ -1,28 +1,40 @@
 import streamlit as st
 
+st.set_page_config(layout="wide")
+
 st.title("RNA MetaWiz")
 
-with st.form("my_form"):
+col1, col2 = st.columns([3, 1], border=True)
+
+with col1:
+    with st.form("my_form", border=False):
+        
+        st.subheader("Biological System")
+
+        st.text_input("Organism")
+        
+        st.text_input("Organism ID")
+        
+        st.text_input("Tissue Cell Type")
+        
+        st.text_input("Tissue Cell Type ID")
+        
+        st.text_input("Qualifier")
+        
+        st.text_input("Value")
+        
+        st.text_input("Source")
+
+        submitted = st.form_submit_button("Submit")
+
+with col2:
+    st.subheader("Assistant")
     
-    st.subheader("1. Biological System, Samples and Experimental Variables")
+    if prompt := st.chat_input("Ask for suggestions directly"):
 
-    st.text_input("Organism")
+        with st.chat_message("user"):
+            st.markdown(prompt)
     
-    st.text_input("Organism ID")
+        with st.chat_message("assistant"):
+            st.markdown("LLM suggestions here.")
     
-    st.text_input("Tissue Cell Type")
-    
-    st.text_input("Tissue Cell Type ID")
-
-    st.subheader("2. Sequence Read Data")
-
-    st.subheader("3. Processed Data")
-
-    st.subheader("5. General Information and Sample‑Data Relationships")
-
-    st.subheader("5. Experimental and Data Processing Protocols")
-
-    slider_val = st.slider("Form slider")
-    checkbox_val = st.checkbox("Form checkbox")
-
-    submitted = st.form_submit_button("Submit")
