@@ -66,8 +66,7 @@ with col2:
                     "content": error_msg
                 })
                 st.error(f"Failed to get response: {str(e)}")
-    
-    # Display chat history
+
     with st.container(height=450, border=True):
         for m in st.session_state.messages:
             with st.chat_message(m["role"]):
