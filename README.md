@@ -1,5 +1,8 @@
 # RNA-MetaWiz4FAIR
 
+> [!NOTE]  
+> This project is in the prototyping stage.
+
 ## Start the project
 
 ### Using `uv`
