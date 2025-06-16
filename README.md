@@ -3,6 +3,16 @@
 > [!NOTE]  
 > This project is in the prototyping stage.
 
+## TODOs
+
+- [ ] Implement all MINSEQE metadata fields
+- [ ] Add examples and prepared prompts for the agent
+- [ ] Add steps for all other ontology APIs
+- [ ] Create a vector store with examples and descriptions
+- [ ] Exporting in raw (JSON) and tabular (CSV, xlsx) formats
+- [ ] Add sqlite database for persistent storage of projects
+- [ ] Containerise
+
 ## Start the project
 
 ### Using `uv`
