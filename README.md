@@ -4,7 +4,7 @@
 
 ### Using `uv`
 
-1. Install uv if it isn't installed already, e.g. curl -LsSf https://astral.sh/uv/install.sh | sh
+1. Install uv if it isn't installed already, e.g. `curl -LsSf https://astral.sh/uv/install.sh | sh`
 2. Install dependencies:
     - All dependencies: `uv sync`
     - Excluding dev dependencies: `uv sync --no-dev`
