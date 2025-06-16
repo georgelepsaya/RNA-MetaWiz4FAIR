@@ -612,8 +612,12 @@ dependencies = [
     { name = "langchain-community" },
     { name = "langchain-openai" },
     { name = "pydantic" },
-    { name = "python-dotenv" },
     { name = "streamlit" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "python-dotenv" },
     { name = "tqdm" },
 ]
 
@@ -623,8 +627,12 @@ requires-dist = [
     { name = "langchain-community", specifier = ">=0.3.25" },
     { name = "langchain-openai", specifier = ">=0.3.23" },
     { name = "pydantic", specifier = ">=2.11.5" },
-    { name = "python-dotenv", specifier = ">=1.1.0" },
     { name = "streamlit", specifier = ">=1.45.1" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "python-dotenv", specifier = ">=1.1.0" },
     { name = "tqdm", specifier = ">=4.67.1" },
 ]
 
