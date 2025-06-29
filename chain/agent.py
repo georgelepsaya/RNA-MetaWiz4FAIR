@@ -1,21 +1,32 @@
 import json
 import requests
 import os
+import streamlit as st
 from typing import List, Dict, Any
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.tools import tool
 from langchain.agents import create_openai_functions_agent, AgentExecutor
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from dotenv import load_dotenv
 
 
-load_dotenv()
+try:
+    OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+    NCBI_API_KEY = st.secrets.get("NCBI_API_KEY", "")
+except Exception:
+    from dotenv import load_dotenv
+    load_dotenv()
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+    NCBI_API_KEY = os.getenv("NCBI_API_KEY", "")
 
 
 class RNAMetadataAgent:
     def __init__(self, temperature: float = 0.2, model: str = "gpt-3.5-turbo"):
-        self.llm = ChatOpenAI(temperature=temperature, model=model, api_key=os.getenv("OPENAI_API_KEY"))
+        self.llm = ChatOpenAI(
+            temperature=temperature,
+            model=model,
+            api_key=OPENAI_API_KEY
+        )
         self.tools = [self._create_ncbi_tool()]
         self.agent_executor = self._create_agent()
     
@@ -25,22 +36,14 @@ class RNAMetadataAgent:
         def search_ncbi_taxonomy(query: str) -> str:
             """
             Search NCBI taxonomy database for organism IDs based on a partial or full organism name.
-            
-            Args:
-                query: Partial or full taxonomic name to search for
-                
-            Returns:
-                JSON string with taxonomy suggestions including IDs and names
             """
-            api_key = os.getenv("NCBI_API_KEY", "")
-            
             url = "https://api.ncbi.nlm.nih.gov/datasets/v2/taxonomy/taxon_suggest"
             headers = {
                 "accept": "application/json",
                 "Content-Type": "application/json"
             }
-            if api_key:
-                headers["api-key"] = api_key
+            if NCBI_API_KEY:
+                headers["api-key"] = NCBI_API_KEY
                 
             payload = {"taxon_query": query}
             

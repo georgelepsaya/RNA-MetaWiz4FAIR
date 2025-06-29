@@ -6,3 +6,4 @@ notes.md
 data/
 vectorstore/
 .env
+.streamlit/
