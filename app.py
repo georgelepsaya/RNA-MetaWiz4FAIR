@@ -1,6 +1,19 @@
 import streamlit as st
 from chain.agent import RNAMetadataAgent
 
+st.set_page_config(layout="wide")
+
+fontuse = """
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+
+body * {
+    font-family: 'Karla', sans-serif !important;
+}
+"""
+
+st.markdown(f'<style>{fontuse}</style>', unsafe_allow_html=True)
+
+
 
 def handle_help_button_click(field_name: str, field_description: str):
     """Handle help button clicks by automatically sending a prompt to the AI assistant"""
@@ -32,33 +45,160 @@ def handle_help_button_click(field_name: str, field_description: str):
             st.error(f"Failed to get response: {str(e)}")
 
 
+def render_sample_form(sample_index: int):
+    """Render a single sample form with unique keys"""
+    sample_key_prefix = f"sample_{sample_index}"
+    
+    with st.expander(f"**Sample #{sample_index + 1}**"):
+        col1, col2, col3 = st.columns([4, 1, 1])
+        
+        with col1:
+            st.markdown(f"**Sample #{sample_index + 1}**")
+        
+        with col2:
+            if sample_index > 0:  # Don't allow removal of the first sample
+                if st.button("🗑️ Remove", key=f"remove_sample_{sample_index}", help="Remove this sample"):
+                    st.session_state.samples.pop(sample_index)
+                    st.rerun()
+        
+        with col3:
+            if st.button("📋 Copy", key=f"copy_sample_{sample_index}", help="Copy this sample"):
+                # Create a copy of the current sample data
+                current_sample = {}
+                for field in ["sample_id", "sample_organism", "sample_organism_id", 
+                             "tissue_type", "tissue_type_id", "cell_type", "cell_type_id", "sample_source"]:
+                    key = f"{sample_key_prefix}_{field}"
+                    if key in st.session_state and st.session_state[key]:
+                        current_sample[field] = st.session_state[key]
+                
+                st.session_state.samples.append(current_sample)
+                st.rerun()
+        
+        # Sample ID
+        st.markdown("**Sample ID**")
+        st.caption("Unique identifier for the sample")
+        if st.button("Help with Sample ID", icon="🤖", key=f"help_{sample_key_prefix}_sample_id"):
+            handle_help_button_click("Sample ID", "Unique identifier for the sample")
+        st.text_input(
+            "Sample ID",
+            key=f"{sample_key_prefix}_sample_id",
+            label_visibility="collapsed",
+            value=st.session_state.samples[sample_index].get("sample_id", "")
+        )
+
+        # Sample Organism
+        st.markdown("**Sample Organism**")
+        st.caption("Organism for this specific sample (if different from main organism)")
+        if st.button("Help with Sample Organism", icon="🤖", key=f"help_{sample_key_prefix}_sample_organism"):
+            handle_help_button_click("Sample Organism", "Organism for this specific sample (if different from main organism)")
+        st.text_input(
+            "Sample Organism",
+            key=f"{sample_key_prefix}_sample_organism",
+            label_visibility="collapsed",
+            value=st.session_state.samples[sample_index].get("sample_organism", "")
+        )
+
+        # Sample Organism ID
+        st.markdown("**Sample Organism ID**")
+        st.caption("Taxonomy ID for the sample organism")
+        if st.button("Help with Sample Organism ID", icon="🤖", key=f"help_{sample_key_prefix}_sample_organism_id"):
+            handle_help_button_click("Sample Organism ID", "Taxonomy ID for the sample organism")
+        st.text_input(
+            "Sample Organism ID",
+            key=f"{sample_key_prefix}_sample_organism_id",
+            label_visibility="collapsed",
+            value=st.session_state.samples[sample_index].get("sample_organism_id", "")
+        )
+
+        # Tissue Type
+        st.markdown("**Tissue Type**")
+        st.caption("Tissue type for this sample")
+        if st.button("Help with Tissue Type", icon="🤖", key=f"help_{sample_key_prefix}_tissue_type"):
+            handle_help_button_click("Tissue Type", "Tissue type for this sample")
+        st.text_input(
+            "Tissue Type",
+            key=f"{sample_key_prefix}_tissue_type",
+            label_visibility="collapsed",
+            value=st.session_state.samples[sample_index].get("tissue_type", "")
+        )
+
+        # Tissue Type ID
+        st.markdown("**Tissue Type ID**")
+        st.caption("Ontology ID for the tissue type")
+        if st.button("Help with Tissue Type ID", icon="🤖", key=f"help_{sample_key_prefix}_tissue_type_id"):
+            handle_help_button_click("Tissue Type ID", "Ontology ID for the tissue type")
+        st.text_input(
+            "Tissue Type ID",
+            key=f"{sample_key_prefix}_tissue_type_id",
+            label_visibility="collapsed",
+            value=st.session_state.samples[sample_index].get("tissue_type_id", "")
+        )
+
+        # Cell Type
+        st.markdown("**Cell Type**")
+        st.caption("Specific cell type for this sample")
+        if st.button("Help with Cell Type", icon="🤖", key=f"help_{sample_key_prefix}_cell_type"):
+            handle_help_button_click("Cell Type", "Specific cell type for this sample")
+        st.text_input(
+            "Cell Type",
+            key=f"{sample_key_prefix}_cell_type",
+            label_visibility="collapsed",
+            value=st.session_state.samples[sample_index].get("cell_type", "")
+        )
+
+        # Cell Type ID
+        st.markdown("**Cell Type ID**")
+        st.caption("Ontology ID for the cell type")
+        if st.button("Help with Cell Type ID", icon="🤖", key=f"help_{sample_key_prefix}_cell_type_id"):
+            handle_help_button_click("Cell Type ID", "Ontology ID for the cell type")
+        st.text_input(
+            "Cell Type ID",
+            key=f"{sample_key_prefix}_cell_type_id",
+            label_visibility="collapsed",
+            value=st.session_state.samples[sample_index].get("cell_type_id", "")
+        )
+
+        # Sample Source
+        st.markdown("**Sample Source**")
+        st.caption("Source or origin of this specific sample")
+        if st.button("Help with Sample Source", icon="🤖", key=f"help_{sample_key_prefix}_sample_source"):
+            handle_help_button_click("Sample Source", "Source or origin of this specific sample")
+        st.text_input(
+            "Sample Source",
+            key=f"{sample_key_prefix}_sample_source",
+            label_visibility="collapsed",
+            value=st.session_state.samples[sample_index].get("sample_source", "")
+        )
+
+
 if "metadata" not in st.session_state:
     st.session_state.metadata = {}
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "agent" not in st.session_state:
     st.session_state.agent = RNAMetadataAgent()
+if "samples" not in st.session_state:
+    st.session_state.samples = [{}]
 
-st.set_page_config(layout="wide")
 st.title("RNA MetaWiz")
 
-st.warning(
-    """
-    This is a Demo of the RNA MetaWiz. You can:\n
+# st.warning(
+#     """
+#     This is a Demo of the RNA MetaWiz. You can:\n
     
-    - Fill out the fields
-    - Ask AI assistant for context-relevant help
-    - Get real information from Ontology databases with one click\n
+#     - Fill out the fields
+#     - Ask AI assistant for context-relevant help
+#     - Get real information from Ontology databases with one click\n
     
-    You can also view the metadata being constructed. \n
-    **Do NOT** use this as an actual tool for metadata annotation.
-    Metadata fields are **NOT complete** and **there is NO validation** of them.\n
-    **Your current session is NOT persisted**. \n
-    We welcome your feedback. Feel free to open an issue on our GitHub repo or contact us at.
-    """)
+#     You can also view the metadata being constructed. \n
+#     **Do NOT** use this as an actual tool for metadata annotation.
+#     Metadata fields are **NOT complete** and **there is NO validation** of them.\n
+#     **Your current session is NOT persisted**. \n
+#     We welcome your feedback. Feel free to open an issue on our GitHub repo or contact us at.
+#     """)
 
 
-col1, col2 = st.columns([3, 1], gap="large")
+col1, col2 = st.columns([1, 1], gap="large")
 
 with col1:
     # === 1. Biological System ===
@@ -237,86 +377,19 @@ with col1:
     # === 2. Sample Information ===
     st.subheader("🧪 Sample Information")
 
-    with st.expander("Samples"):
-        st.markdown("**Sample ID**")
-        st.caption("Unique identifier for the sample")
-        if st.button("Help with Sample ID", icon="🤖", key="help_sample_id"):
-            handle_help_button_click("Sample ID", "Unique identifier for the sample")
-        st.text_input(
-            "Sample ID",
-            key="sample_id",
-            label_visibility="collapsed"
-        )
+    # Add sample button
+    sample_col1, sample_col2 = st.columns([1, 4])
+    with sample_col1:
+        if st.button("➕ Add Sample", help="Add a new sample to the list"):
+            st.session_state.samples.append({})
+            st.rerun()
+    
+    with sample_col2:
+        st.caption(f"Currently managing {len(st.session_state.samples)} sample(s)")
 
-        st.markdown("**Sample Organism**")
-        st.caption("Organism for this specific sample (if different from main organism)")
-        if st.button("Help with Sample Organism", icon="🤖", key="help_sample_organism"):
-            handle_help_button_click("Sample Organism", "Organism for this specific sample (if different from main organism)")
-        st.text_input(
-            "Sample Organism",
-            key="sample_organism",
-            label_visibility="collapsed"
-        )
-
-        st.markdown("**Sample Organism ID**")
-        st.caption("Taxonomy ID for the sample organism")
-        if st.button("Help with Sample Organism ID", icon="🤖", key="help_sample_organism_id"):
-            handle_help_button_click("Sample Organism ID", "Taxonomy ID for the sample organism")
-        st.text_input(
-            "Sample Organism ID",
-            key="sample_organism_id",
-            label_visibility="collapsed"
-        )
-
-        st.markdown("**Tissue Type**")
-        st.caption("Tissue type for this sample")
-        if st.button("Help with Tissue Type", icon="🤖", key="help_tissue_type"):
-            handle_help_button_click("Tissue Type", "Tissue type for this sample")
-        st.text_input(
-            "Tissue Type",
-            key="tissue_type",
-            label_visibility="collapsed"
-        )
-
-        st.markdown("**Tissue Type ID**")
-        st.caption("Ontology ID for the tissue type")
-        if st.button("Help with Tissue Type ID", icon="🤖", key="help_tissue_type_id"):
-            handle_help_button_click("Tissue Type ID", "Ontology ID for the tissue type")
-        st.text_input(
-            "Tissue Type ID",
-            key="tissue_type_id",
-            label_visibility="collapsed"
-        )
-
-        st.markdown("**Cell Type**")
-        st.caption("Specific cell type for this sample")
-        if st.button("Help with Cell Type", icon="🤖", key="help_cell_type"):
-            handle_help_button_click("Cell Type", "Specific cell type for this sample")
-        st.text_input(
-            "Cell Type",
-            key="cell_type",
-            label_visibility="collapsed"
-        )
-
-        st.markdown("**Cell Type ID**")
-        st.caption("Ontology ID for the cell type")
-        if st.button("Help with Cell Type ID", icon="🤖", key="help_cell_type_id"):
-            handle_help_button_click("Cell Type ID", "Ontology ID for the cell type")
-        st.text_input(
-            "Cell Type ID",
-            key="cell_type_id",
-            label_visibility="collapsed"
-        )
-
-        st.markdown("**Sample Source**")
-        st.caption("Source or origin of this specific sample")
-        if st.button("Help with Sample Source", icon="🤖", key="help_sample_source"):
-            handle_help_button_click("Sample Source", "Source or origin of this specific sample")
-        st.text_input(
-            "Sample Source",
-            key="sample_source",
-            label_visibility="collapsed"
-        )
+    # Render all samples
+    for i in range(len(st.session_state.samples)):
+        render_sample_form(i)
 
     
     # === 3. Sequence Read Data ===
@@ -725,10 +798,37 @@ with col1:
 
     if st.button("Save"):
         form_data = {}
+        
+        # Collect regular form data (excluding sample-specific keys)
+        import re
         for key in st.session_state:
-            if key not in ["metadata", "messages", "agent"] and st.session_state[key]:
+            # Exclude system keys and sample-specific keys (pattern: sample_[number]_[field])
+            if (key not in ["metadata", "messages", "agent", "samples"] and 
+                not re.match(r'^sample_\d+_', key) and 
+                not key.startswith('help_sample_') and
+                not key.startswith('remove_sample_') and
+                not key.startswith('copy_sample_') and
+                st.session_state[key]):
                 form_data[key] = st.session_state[key]
-
+        
+        # Collect sample data from the new structure
+        samples_data = []
+        for i in range(len(st.session_state.samples)):
+            sample_data = {}
+            sample_key_prefix = f"sample_{i}"
+            
+            for field in ["sample_id", "sample_organism", "sample_organism_id", 
+                         "tissue_type", "tissue_type_id", "cell_type", "cell_type_id", "sample_source"]:
+                key = f"{sample_key_prefix}_{field}"
+                if key in st.session_state and st.session_state[key]:
+                    sample_data[field] = st.session_state[key]
+            
+            if sample_data:  # Only add non-empty samples
+                samples_data.append(sample_data)
+        
+        if samples_data:
+            form_data["samples"] = samples_data
+        
         st.session_state.metadata = form_data
         st.success("Context updated!")
     
@@ -739,6 +839,17 @@ with col2:
     if st.session_state.metadata:
         with st.expander("Current Metadata", expanded=False, icon="📄"):
             st.json(st.session_state.metadata)
+            
+            # JSON download button
+            import json
+            json_data = json.dumps(st.session_state.metadata, indent=2)
+            st.download_button(
+                label="💾 Download JSON",
+                data=json_data,
+                file_name="rna_metadata.json",
+                mime="application/json",
+                help="Download the current metadata as a JSON file"
+            )
         
     if prompt := st.chat_input("Ask for suggestions..."):
         st.session_state.messages.append({"role": "user", "content": prompt})
@@ -764,7 +875,7 @@ with col2:
                 })
                 st.error(f"Failed to get response: {str(e)}")
 
-    with st.container(height=450, border=True):
+    with st.container(border=True):
         for m in st.session_state.messages:
             with st.chat_message(m["role"]):
                 st.markdown(m["content"])

@@ -7,3 +7,4 @@ data/
 vectorstore/
 .env
 .streamlit/
+.github/
