@@ -247,14 +247,14 @@ with col1:
         )
         
         st.markdown("**Qualifier**")
-        st.caption("Type of qualifier: strain (genetic variant), age (developmental stage), or treatment (experimental condition).")
+        st.caption("Type of qualifier: strain (genetic variant), age (developmental stage), treatment (experimental condition), or any other qualifier.")
         if st.button("Help with Qualifier", icon="🤖", key="help_qualifier"):
-            handle_help_button_click("Qualifier", "Type of qualifier: strain (genetic variant), age (developmental stage), or treatment (experimental condition).")
-        st.selectbox(
+            handle_help_button_click("Qualifier", "Type of qualifier: strain (genetic variant), age (developmental stage), treatment (experimental condition), or any other qualifier.")
+        st.text_input(
             "Qualifier",
-            options=["strain", "age", "treatment"],
             key="qualifier",
-            label_visibility="collapsed"
+            label_visibility="collapsed",
+            placeholder="e.g., strain, age, treatment, sex, genotype, etc."
         )
 
         st.markdown("**Value**")
